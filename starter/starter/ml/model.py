@@ -1,6 +1,7 @@
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-
-
+from pathlib import Path
+import joblib
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -16,7 +17,8 @@ def train_model(X_train, y_train):
     model : RandomForestClassifier
         Trained machine learning model.
     """
-    pass
+    model = RandomForestClassifier().fit(X_train, y_train)
+    return model
 
 
 def compute_model_metrics(y, preds):
@@ -55,4 +57,22 @@ def inference(model, X):
     preds : np.ndarray
         Predictions from the model.
     """
-    pass
+    preds = model.predict(X)
+    return preds
+
+def save_model(artifact_dict, model_dir, file_name='model.joblib'):
+    # Get current working directory as base
+    model_path = Path(model_dir)
+
+    # Create safe root folder if it doesn't exist
+    model_path.mkdir(parents=True, exist_ok=True)
+
+    joblib.dump(artifact_dict, model_path / file_name)
+
+def load_model(model_path):
+    # Load model
+    artifacts = joblib.load(model_path)
+    rf_model = artifacts["classifier"]
+    encoder = artifacts.get("encoder")
+    lb = artifacts.get("label_binarizer")
+    return rf_model, encoder, lb
