@@ -1,7 +1,12 @@
+import numpy as np
+import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from pathlib import Path
 import joblib
+
+from starter.starter.ml.data import process_data
+
 
 def train_model(X_train, y_train):
     """
@@ -78,3 +83,75 @@ def load_model(model_path):
     encoder = artifacts.get("encoder")
     lb = artifacts.get("label_binarizer")
     return rf_model, encoder, lb
+
+
+def compute_performance_on_slices(
+    X_test: pd.DataFrame,
+    model,
+    slice_feature: str,
+    categorical_features: list,
+    label:str,
+    encoder=None,
+    lb=None,
+    output_file: str = None
+):
+    """
+    Compute precision, recall, fbeta for each unique value of slice_feature.
+    """
+    results = []
+
+    unique_values = X_test[slice_feature].unique()
+    unique_values = sorted(unique_values)  # nicer output
+
+    for value in unique_values:
+        # Create mask
+        mask = X_test[slice_feature] == value
+
+        if mask.sum() == 0:
+            continue  # skip empty slices
+
+        # Slice data
+        X_slice = X_test[mask].copy()
+
+        # Process data for One hot encoding and binarization
+        X_slice_processed, y_slice_processed,_,_ = process_data(X_slice,categorical_features,label=label, encoder=encoder, lb=lb, training=False)
+
+        # Make sure y_test is 1D array of 0/1
+        if y_slice_processed.ndim > 1:
+            y_slice_processed = y_slice_processed.ravel()
+
+        # Predict on this slice
+        preds_slice = model.predict(X_slice_processed)
+
+        # Compute metrics
+        precision, recall, fbeta = compute_model_metrics(y_slice_processed, preds_slice)
+
+        results.append({
+            "slice_feature": slice_feature,
+            "value": value,
+            "count": mask.sum(),
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "fbeta": round(fbeta, 4)
+        })
+
+    # Convert to DataFrame for nice printing / saving
+    results_df = pd.DataFrame(results)
+
+    print(f"\nPerformance on slices of '{slice_feature}':")
+    print(results_df.to_string(index=False))
+
+    # Save to text file
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(f"Model Performance on Slices of Feature: {slice_feature}\n")
+        f.write("=" * 60 + "\n\n")
+
+        f.write(results_df.to_string(index=False))
+        f.write("\n\n")
+
+        f.write(f"Generated on: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"Total slices: {len(results_df)}\n")
+
+    print(f"Results saved to: {output_file}")
+
+    return results_df

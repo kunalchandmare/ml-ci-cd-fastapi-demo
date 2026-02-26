@@ -69,7 +69,7 @@ rf_model = ml_model.train_model(
 pred = ml_model.inference(rf_model, X_test)
 
 precision, recall, f_beta = ml_model.compute_model_metrics(y_test, pred)
-
+print(f"\nPerformance without slices:")
 print("Precision:", precision)
 print("Recall:", recall)
 print("FBeta:", f_beta)
@@ -83,3 +83,10 @@ artifacts = {
 model_dir = "../model"
 
 ml_model.save_model(artifacts,model_dir)
+
+ml_model.compute_performance_on_slices(test,rf_model,"education",
+                                       categorical_features=cat_features,
+                                       label="salary",
+                                       encoder=encoder,
+                                       lb=lb,
+                                       output_file="./slice_output.txt")
