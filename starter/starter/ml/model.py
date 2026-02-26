@@ -2,6 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from pathlib import Path
 import joblib
+
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -17,7 +18,8 @@ def train_model(X_train, y_train):
     model : RandomForestClassifier
         Trained machine learning model.
     """
-    model = RandomForestClassifier().fit(X_train, y_train)
+    model = RandomForestClassifier(random_state=42)
+    model.fit(X_train, y_train)
     return model
 
 
