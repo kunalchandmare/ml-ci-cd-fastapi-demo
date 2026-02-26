@@ -40,4 +40,4 @@ jobs:
       run: |
         # Add repository root to PYTHONPATH so starter is discoverable
         export PYTHONPATH="${{ github.workspace }}:${PYTHONPATH}"
-        pytest -v tests/
+        pytest -v starter/tests/
