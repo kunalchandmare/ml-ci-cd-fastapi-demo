@@ -1,4 +1,5 @@
 # Import Union since our Item object will have tags that can be strings or a list.
+from pathlib import Path
 from typing import Union, Tuple
 
 import pandas as pd
@@ -37,7 +38,15 @@ def get_model_components() -> Tuple:
     global MODEL, ENCODER, LB
     if MODEL is None:
         try:
-            MODEL, ENCODER, LB = load_model("starter/model/model.joblib")
+            cwd = Path.cwd()
+            model_dir = Path(cwd) / "starter/model"
+
+            saved_file = model_dir / "model.joblib"
+            if not saved_file.exists():
+                raise FileNotFoundError(f"No model found at {saved_file}")
+            else:
+                print(f"Found model at {saved_file}")
+            MODEL, ENCODER, LB = load_model(saved_file)
         except Exception as e:
             raise RuntimeError(f"Failed to load model: {e}")
     return MODEL, ENCODER, LB
