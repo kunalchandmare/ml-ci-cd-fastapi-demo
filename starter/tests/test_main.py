@@ -10,6 +10,9 @@ client = TestClient(app)
 def test_root_main():
     r = client.get("/")
     assert r.status_code == 200
+    assert r.json() == {"message": "Hello! This is API for to connect our Model which is "
+                       " a supervised binary classification model to predict whether an adult earns more than $50,000"
+                       "per year based on demographic and employment features from the 1994 US Census data."}
 
 def test_train_data_less_50k_prediction():
     pred_request = {
