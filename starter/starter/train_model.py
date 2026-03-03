@@ -1,10 +1,6 @@
 # Script to train machine learning model.
 import os
-import shutil
-
 import numpy as np
-import sklearn
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.

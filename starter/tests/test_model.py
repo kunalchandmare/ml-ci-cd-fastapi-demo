@@ -1,3 +1,4 @@
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -81,8 +82,10 @@ def test_save_and_load_model_roundtrip(binary_classification_data):
         "label_binarizer": fake_lb
     }
 
-    with Path.cwd() as tmpdir:
+    with tempfile.TemporaryDirectory() as tmpdir:
         model_dir = Path(tmpdir) / "models"
+        model_dir.mkdir(parents=True, exist_ok=True)
+
         save_model(artifact_dict, model_dir, file_name="test_model.joblib")
 
         saved_file = model_dir / "test_model.joblib"

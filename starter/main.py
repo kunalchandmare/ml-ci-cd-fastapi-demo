@@ -5,13 +5,33 @@ from typing import Union, Tuple
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Depends
 # BaseModel from Pydantic is used to define data objects.
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from starter.ml.model import load_model,inference
 from starter.ml.data import process_data
 
 # Declare the data object with its components and their type.
 class PredictionRequest(BaseModel):
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "age": 39,
+                "workclass": "State-gov",
+                "fnlgt": 77516,
+                "education": "Bachelors",
+                "education-num": 13,
+                "marital-status": "Never-married",
+                "occupation": "Adm-clerical",
+                "relationship": "Not-in-family",
+                "race": "White",
+                "sex": "Male",
+                "capital-gain": 2174,
+                "capital-loss": 0,
+                "hours-per-week": 40,
+                "native-country": "United-States"
+            }
+        }
+    )
     age: int
     workclass: str
     fnlgt: int
