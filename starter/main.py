@@ -7,7 +7,8 @@ from fastapi import FastAPI, HTTPException, Depends
 # BaseModel from Pydantic is used to define data objects.
 from pydantic import BaseModel, Field
 
-from starter.starter.ml.model import load_model,process_data,inference
+from starter.ml.model import load_model,inference
+from starter.ml.data import process_data
 
 # Declare the data object with its components and their type.
 class PredictionRequest(BaseModel):
@@ -39,7 +40,7 @@ def get_model_components() -> Tuple:
     if MODEL is None:
         try:
             cwd = Path.cwd()
-            model_dir = Path(cwd) / "starter/model"
+            model_dir = Path(cwd) / "model"
 
             saved_file = model_dir / "model.joblib"
             if not saved_file.exists():

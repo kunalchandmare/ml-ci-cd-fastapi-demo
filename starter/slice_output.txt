@@ -1,0 +1,23 @@
+Model Performance on Slices of Feature: education
+============================================================
+
+slice_feature        value  count  precision  recall  fbeta
+    education         10th    188     0.6667  0.3333 0.4444
+    education         11th    246     1.0000  0.4167 0.5882
+    education         12th     93     0.5000  0.1667 0.2500
+    education      1st-4th     36     1.0000  0.0000 0.0000
+    education      5th-6th     69     1.0000  0.5714 0.7273
+    education      7th-8th    136     0.7500  0.2727 0.4000
+    education          9th     93     1.0000  0.2500 0.4000
+    education   Assoc-acdm    216     0.7381  0.5962 0.6596
+    education    Assoc-voc    244     0.6200  0.5254 0.5688
+    education    Bachelors   1068     0.7564  0.6991 0.7266
+    education    Doctorate     86     0.8592  0.8841 0.8714
+    education      HS-grad   2081     0.6009  0.4132 0.4897
+    education      Masters    350     0.8220  0.8351 0.8285
+    education    Preschool     11     0.0000  1.0000 0.0000
+    education  Prof-school    116     0.8837  0.9048 0.8941
+    education Some-college   1480     0.6964  0.5532 0.6166
+
+Generated on: 2026-03-03 08:42:40
+Total slices: 16

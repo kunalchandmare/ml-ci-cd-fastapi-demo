@@ -9,8 +9,8 @@ from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
 import pandas as pd
-from starter.starter.ml.data import process_data
-import starter.starter.ml.model as ml_model
+from starter.ml.data import process_data
+import starter.ml.model as ml_model
 
 # Add code to load in the data.
 def read_one_csv_to_df(artifact_inp_dir):
@@ -33,7 +33,7 @@ def read_one_csv_to_df(artifact_inp_dir):
         return None
 
 
-data = read_one_csv_to_df("../data")
+data = read_one_csv_to_df("./data")
 print(data.describe())
 print(data.isnull().sum())
 # Clean "?" values

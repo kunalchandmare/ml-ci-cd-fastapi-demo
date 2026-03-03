@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 from sklearn.ensemble import RandomForestClassifier
-from starter.starter.ml.model import train_model,compute_model_metrics,save_model,load_model,inference
+from starter.ml.model import train_model,compute_model_metrics,save_model,load_model,inference
 
 
 @pytest.fixture

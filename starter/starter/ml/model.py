@@ -5,7 +5,7 @@ from sklearn.metrics import fbeta_score, precision_score, recall_score
 from pathlib import Path
 import joblib
 
-from starter.starter.ml.data import process_data
+from starter.ml.data import process_data
 
 
 def train_model(X_train, y_train):
